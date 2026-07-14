@@ -14,6 +14,7 @@ import { AppShell, DashboardShell } from "./components/AppShell";
 import { usePerformanceOptimization } from "./utils/performanceMonitor";
 import { useRenderLoopProtection } from "./utils/renderLoopProtection";
 import { setNavigate } from "./utils/api";
+import { CursorTrail } from "./components/CursorTrail";
 
 // Phase 1: Critical path - immediate imports (no lazy loading)
 import { LandingPage } from "./pages/LandingPage";
@@ -319,6 +320,7 @@ function App() {
   // Always render the router, never unmount
   return (
     <Router>
+      <CursorTrail />
       <AnimatedRoutes isInitialized={isInitialized} />
     </Router>
   );
