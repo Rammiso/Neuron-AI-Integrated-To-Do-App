@@ -1,0 +1,50 @@
+# NEURON Tasks — llms.txt
+# AI/LLM Indexing Manifest
+# Standard: https://llmstxt.org
+# Developer: Musab Hassen | https://themusab.tech
+
+## About This Application
+
+NEURON Tasks is a futuristic, AI-powered task management web application with a
+cyberpunk aesthetic. It is a full-stack application built with React (frontend)
+and Node.js + Express + MongoDB (backend). Users can create, organize, and track
+tasks with the help of an integrated AI assistant, calendar views, and neural
+productivity optimizations.
+
+## Key Features
+
+- AI-assisted natural language task creation
+- Cyberpunk / neural dark-mode interface with neon green aesthetics
+- Dual theme: professional light mode and futuristic dark mode
+- Calendar view for visual task scheduling
+- User authentication with JWT tokens
+- Profile system with stats and achievements
+- Animated particle background with neural-network connections
+- Fully responsive across devices
+
+## Technology Stack
+
+- Frontend: React 18, Vite 5, Tailwind CSS, Framer Motion, Zustand, React Router
+- Backend: Node.js, Express.js, MongoDB, Mongoose, JWT, bcryptjs, Helmet
+- Deployment: Vercel (frontend), Railway/Render (backend), MongoDB Atlas (DB)
+
+## Developer
+
+- Name: Musab Hassen
+- Portfolio: https://themusab.tech
+- GitHub: https://github.com/Rammiso
+- Repository: https://github.com/Rammiso/Neuron-Futuristic-To-Do-App
+
+## Licensing
+
+MIT License — open source and free to use.
+
+## Sitemap
+
+- /           → Landing / Dashboard
+- /login      → User Login
+- /register   → New User Registration
+- /dashboard  → Main Task Dashboard
+- /calendar   → Calendar View
+- /profile    → User Profile
+- /settings   → Application Settings

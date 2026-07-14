@@ -1,0 +1,21 @@
+/* TEAM */
+Developer & Designer: Musab Hassen
+Portfolio: https://themusab.tech
+GitHub: https://github.com/Rammiso
+Location: Ethiopia
+
+/* THANKS */
+React Team — https://react.dev
+Vite — https://vitejs.dev
+Framer Motion — https://www.framer.com/motion
+Tailwind CSS — https://tailwindcss.com
+Lucide Icons — https://lucide.dev
+Google Fonts — https://fonts.google.com
+
+/* SITE */
+Last update: 2026-07-14
+Language: English
+Doctype: HTML5
+Standards: HTML5, CSS3, ES2022
+Components: React 18, Vite 5, Node.js, Express, MongoDB
+Software: Visual Studio Code

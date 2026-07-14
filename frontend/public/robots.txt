@@ -1,0 +1,64 @@
+# ============================================================
+# NEURON Tasks - robots.txt
+# Developer: Musab Hassen | Portfolio: https://themusab.tech
+# ============================================================
+
+# === General Search Engine Crawlers ===
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /private/
+Disallow: /*.env
+Disallow: /admin/
+Crawl-delay: 1
+
+# === Google Search ===
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Crawl-delay: 0
+
+# === Bing / Microsoft ===
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Crawl-delay: 1
+
+# === AI Content Crawlers (LLM Training) ===
+# Allow AI indexing for discoverability
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# === Sitemap Reference ===
+Sitemap: https://neuron-tasks.com/sitemap.xml
