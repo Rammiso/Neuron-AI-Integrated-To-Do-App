@@ -15,6 +15,7 @@ import {
   MessageSquare,
   Lightbulb
 } from "lucide-react";
+import { MiniSparkline } from "../components/NeuralActivityMonitor";
 
 const aiSuggestions = [
   {
@@ -66,6 +67,10 @@ export const AIAssistantPage = () => {
   const [currentInsight, setCurrentInsight] = useState(0);
   const messagesEndRef = useRef(null);
 
+  const [cpuHistory, setCpuHistory] = useState(() => Array.from({ length: 12 }, () => Math.random() * 0.4 + 0.3));
+  const [memHistory, setMemHistory] = useState(() => Array.from({ length: 12 }, () => Math.random() * 0.2 + 0.5));
+  const [neuralHistory, setNeuralHistory] = useState(() => Array.from({ length: 12 }, () => Math.random() * 0.5 + 0.2));
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -79,6 +84,30 @@ export const AIAssistantPage = () => {
       setCurrentInsight((prev) => (prev + 1) % aiInsights.length);
     }, 5000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const statInterval = setInterval(() => {
+      setCpuHistory(prev => {
+        const next = [...prev];
+        next.shift();
+        next.push(Math.max(0.1, Math.min(0.95, prev[prev.length - 1] + (Math.random() - 0.5) * 0.15)));
+        return next;
+      });
+      setMemHistory(prev => {
+        const next = [...prev];
+        next.shift();
+        next.push(Math.max(0.1, Math.min(0.95, prev[prev.length - 1] + (Math.random() - 0.5) * 0.08)));
+        return next;
+      });
+      setNeuralHistory(prev => {
+        const next = [...prev];
+        next.shift();
+        next.push(Math.max(0.1, Math.min(0.95, prev[prev.length - 1] + (Math.random() - 0.5) * 0.22)));
+        return next;
+      });
+    }, 1500);
+    return () => clearInterval(statInterval);
   }, []);
 
   const aiResponses = [
@@ -428,17 +457,23 @@ export const AIAssistantPage = () => {
                 <Activity className="w-5 h-5 text-emerald-400 mr-2" />
                 SYSTEM STATUS
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {[
-                  { label: "Neural Processing", status: "OPTIMAL", color: "text-emerald-400" },
-                  { label: "Pattern Recognition", status: "ACTIVE", color: "text-cyan-400" },
-                  { label: "Cognitive Analysis", status: "RUNNING", color: "text-yellow-400" },
+                  { label: "Neural Processing", data: neuralHistory, color: "#10b981", val: `${Math.round(neuralHistory[neuralHistory.length - 1] * 100)}%` },
+                  { label: "Core Processing", data: cpuHistory, color: "#06b6d4", val: `${Math.round(cpuHistory[cpuHistory.length - 1] * 100)}%` },
+                  { label: "Cognitive Load", data: memHistory, color: "#eab308", val: `${Math.round(memHistory[memHistory.length - 1] * 100)}%` },
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 bg-gray-800/30 rounded-lg">
-                    <span className="text-sm text-gray-300 font-mono">{item.label}</span>
-                    <span className={`text-xs font-mono font-bold ${item.color}`}>
-                      {item.status}
-                    </span>
+                  <div key={index} className="flex flex-col p-3 bg-gray-850/40 border border-emerald-500/10 rounded-lg space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-300 font-mono uppercase tracking-wider">{item.label}</span>
+                      <span className="text-sm font-mono font-bold" style={{ color: item.color }}>
+                        {item.val}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] text-gray-500 font-mono">ACTIVITY FLOW</span>
+                      <MiniSparkline data={item.data} color={item.color} height={20} />
+                    </div>
                   </div>
                 ))}
               </div>
