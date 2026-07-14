@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState, useCallback, useMemo, memo } from 'react';
+import { useState, useCallback, useMemo, memo, useRef } from 'react';
 
 // Memoized corner accents to prevent re-renders
 const CornerAccents = memo(() => (
@@ -42,8 +42,10 @@ export const HolographicCard = memo(({
   disableHover = false,
   ...props 
 }) => {
+  const cardRef = useRef(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
 
   // Memoized glow colors to prevent object recreation
   const glowColors = useMemo(() => ({
@@ -54,21 +56,27 @@ export const HolographicCard = memo(({
     pink: 'rgba(236, 72, 153, 0.3)',
   }), []);
 
-  // Throttled mouse move handler for performance
+  // 3D Tilt + mouse glow handler
   const handleMouseMove = useCallback((e) => {
-    if (disableHover) return;
+    if (disableHover || !cardRef.current) return;
     
-    const rect = e.currentTarget.getBoundingClientRect();
+    const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
-    // Only update if position changed significantly (reduces re-renders)
     setMousePosition(prev => {
-      if (Math.abs(prev.x - x) > 5 || Math.abs(prev.y - y) > 5) {
+      if (Math.abs(prev.x - x) > 3 || Math.abs(prev.y - y) > 3) {
         return { x, y };
       }
       return prev;
     });
+
+    // Compute 3D tilt — max ±8 degrees
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -6;
+    const rotateY = ((x - centerX) / centerX) * 6;
+    setTilt({ rotateX, rotateY });
   }, [disableHover]);
 
   const handleMouseEnter = useCallback(() => {
@@ -76,61 +84,63 @@ export const HolographicCard = memo(({
   }, [disableHover]);
 
   const handleMouseLeave = useCallback(() => {
-    if (!disableHover) setIsHovered(false);
+    if (!disableHover) {
+      setIsHovered(false);
+      setTilt({ rotateX: 0, rotateY: 0 });
+    }
   }, [disableHover]);
 
-  // Memoized hover animation variants
-  const hoverVariants = useMemo(() => ({
-    hover: { 
-      scale: 1.02,
-      transition: { 
-        duration: 0.2,
-        ease: "easeOut"
-      }
-    }
-  }), []);
-
-  // Memoized glow style to prevent recalculation
+  // Memoized glow style
   const glowStyle = useMemo(() => ({
-    width: '200px',
-    height: '200px',
-    left: mousePosition.x - 100,
-    top: mousePosition.y - 100,
+    width: '220px',
+    height: '220px',
+    left: mousePosition.x - 110,
+    top: mousePosition.y - 110,
     background: `radial-gradient(circle, ${glowColors[glowColor]} 0%, transparent 70%)`,
   }), [mousePosition.x, mousePosition.y, glowColors, glowColor]);
 
+  const cardStyle = useMemo(() => ({
+    transform: isHovered && !disableHover
+      ? `perspective(800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) translateZ(4px)`
+      : 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0)',
+    transition: isHovered
+      ? 'transform 0.1s ease-out'
+      : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+  }), [isHovered, tilt, disableHover]);
+
   return (
-    <motion.div
-      className={`relative overflow-hidden rounded-xl ${className}`}
+    <div
+      ref={cardRef}
+      className={`relative overflow-hidden rounded-xl holo-shimmer ${className}`}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      variants={hoverVariants}
-      whileHover={disableHover ? undefined : "hover"}
+      style={cardStyle}
       {...props}
     >
-      {/* Holographic background - static, no re-renders */}
+      {/* Holographic background */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 backdrop-blur-xl" />
       
-      {/* Border glow - static */}
-      <div className="absolute inset-0 rounded-xl border border-emerald-500/30 shadow-lg shadow-emerald-500/20" />
+      {/* Border glow — pulses on hover */}
+      <div className={`absolute inset-0 rounded-xl border transition-all duration-300 ${
+        isHovered
+          ? 'border-emerald-400/50 shadow-[0_0_25px_rgba(0,255,136,0.2),inset_0_0_25px_rgba(0,255,136,0.04)]'
+          : 'border-emerald-500/20 shadow-lg shadow-emerald-500/10'
+      }`} />
       
-      {/* Mouse follow glow - only render when hovered */}
+      {/* Mouse follow glow */}
       {isHovered && !disableHover && (
         <motion.div
-          className="absolute pointer-events-none rounded-full blur-xl"
+          className="absolute pointer-events-none rounded-full blur-2xl"
           style={glowStyle}
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.6 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ 
-            duration: 0.2,
-            ease: "easeOut"
-          }}
+          exit={{ opacity: 0, scale: 0.6 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
         />
       )}
       
-      {/* Scan lines - memoized component */}
+      {/* Scan lines */}
       <ScanLines />
       
       {/* Content */}
@@ -138,8 +148,8 @@ export const HolographicCard = memo(({
         {children}
       </div>
       
-      {/* Corner accents - memoized component */}
+      {/* Corner accents */}
       <CornerAccents />
-    </motion.div>
+    </div>
   );
 });
