@@ -221,9 +221,14 @@ Please ensure your contributions follow the existing code style and include appr
 
 This project is licensed under the MIT License - see the [LICENSE](./frontend/LICENSE) file for details.
 
-## 👥 Authors
+## 👤 Developer
 
-- **Musab Hassen Aliyi* - Initial work
+| | |
+|---|---|
+| **Name** | Musab Hassen |
+| **Portfolio** | [themusab.tech](https://themusab.tech) |
+| **GitHub** | [@Rammiso](https://github.com/Rammiso) |
+| **Role** | Full Stack Developer |
 
 ## 🙏 Acknowledgments
 
@@ -234,12 +239,14 @@ This project is licensed under the MIT License - see the [LICENSE](./frontend/LI
 
 ## 📧 Contact
 
-**Project Link:** [https://github.com/Rammiso/Neuron-Futuristic-To-Do-App](https://github.com/Rammiso/Neuron-Futuristic-To-Do-App)
+**Developer:** Musab Hassen  
+**Portfolio:** [themusab.tech](https://themusab.tech)  
+**GitHub:** [github.com/Rammiso](https://github.com/Rammiso)  
+**Project Link:** [Neuron-Futuristic-To-Do-App](https://github.com/Rammiso/Neuron-Futuristic-To-Do-App)
 
 ---
 
 <div align="center">
-  <p>Made with ❤️ and ⚡</p>
-  <p>NEURON Tasks © 2024</p>
-  <p>Musab Hassen</p>
+  <p>Made with ❤️ and ⚡ by <a href="https://themusab.tech"><strong>Musab Hassen</strong></a></p>
+  <p>NEURON Tasks © 2026</p>
 </div>
