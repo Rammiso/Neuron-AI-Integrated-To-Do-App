@@ -4,6 +4,7 @@ import { Bell, User, Wifi, Activity, Zap } from "lucide-react";
 import { useAuthStore } from "../context/authStore";
 import { getMonthYear } from "../utils/dateUtils";
 import { ProfileModal } from "./ProfileModal";
+import { NeuralActivityMonitor } from "./NeuralActivityMonitor";
 
 export const Topbar = () => {
   const { user } = useAuthStore();
@@ -38,17 +39,8 @@ export const Topbar = () => {
             </p>
           </div>
 
-          {/* System Status Indicators */}
-          <div className="hidden lg:flex items-center space-x-4">
-            <div className="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
-              <Wifi className="w-3 h-3 text-emerald-400" />
-              <span className="text-xs font-mono text-emerald-400">ONLINE</span>
-            </div>
-            <div className="flex items-center space-x-2 px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 rounded-full">
-              <Zap className="w-3 h-3 text-cyan-400" />
-              <span className="text-xs font-mono text-cyan-400">NEURAL</span>
-            </div>
-          </div>
+          {/* Neural Activity Monitor */}
+          <NeuralActivityMonitor />
         </div>
 
         {/* Right side - Actions */}
