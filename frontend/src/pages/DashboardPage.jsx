@@ -192,7 +192,7 @@ export const DashboardPage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="space-y-8"
+        className="space-y-8 relative"
       >
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
@@ -234,7 +234,7 @@ export const DashboardPage = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 circuit-lines">
           {stats.map((stat, index) => (
             <StatCard key={stat.label} stat={stat} index={index} />
           ))}
