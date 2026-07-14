@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "../context/authStore";
 import { useState } from "react";
+import { GlitchText } from "./GlitchText";
 
 const navItems = [
   { icon: LayoutDashboard, label: "Neural Hub", path: "/dashboard", description: "Command Center" },
@@ -43,16 +44,32 @@ export const Sidebar = () => {
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center space-x-3"
         >
-          <div className="w-12 h-12 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-lg flex items-center justify-center">
+          <motion.div
+            className="w-12 h-12 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-lg flex items-center justify-center"
+            animate={{
+              boxShadow: [
+                '0 0 10px rgba(0,255,136,0.3)',
+                '0 0 25px rgba(0,255,136,0.6)',
+                '0 0 10px rgba(0,255,136,0.3)',
+              ]
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
             <Brain className="w-7 h-7 text-black" />
-          </div>
+          </motion.div>
           <div>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent font-mono">
-              NEURON
+            <h1 className="text-xl font-bold font-mono">
+              <GlitchText
+                text="NEURON"
+                className="rgb-shimmer"
+                typingSpeed={100}
+                enableGlitch={true}
+              />
             </h1>
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+              <div className="status-dot online" />
               <p className="text-xs text-gray-400 font-mono">NEURAL INTERFACE</p>
+              <span className="text-xs font-mono text-emerald-400/60 bg-emerald-500/10 border border-emerald-500/20 rounded px-1">v2</span>
             </div>
           </div>
         </motion.div>
@@ -208,7 +225,7 @@ export const Sidebar = () => {
         initial={{ opacity: 0, x: -300 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="hidden md:flex flex-col w-72 bg-gray-900/50 backdrop-blur-xl border-r border-emerald-500/20 h-screen sticky top-0"
+        className="hidden md:flex flex-col w-72 bg-gray-900/50 backdrop-blur-xl border-r border-emerald-500/20 neon-border-pulse h-screen sticky top-0"
       >
         {sidebarContent(false)}
       </motion.div>
