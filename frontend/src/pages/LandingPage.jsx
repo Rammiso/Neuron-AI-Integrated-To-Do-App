@@ -17,11 +17,13 @@ import {
   Github,
   Linkedin,
   MessageCircle,
-  ExternalLink
+  ExternalLink,
+  Globe
 } from 'lucide-react';
 import { ProgressiveMotion, ProgressiveFadeIn, ProgressiveSlideUp } from '../components/ProgressiveMotion';
 import { ProgressiveParticleBackground } from '../components/ProgressiveParticleBackground';
 import { useTwoPhaseInit, useProgressiveFeature } from '../hooks/useTwoPhaseInit';
+import { GlitchText, TerminalText } from '../components/GlitchText';
 
 // Lazy load heavy components
 const HolographicCard = lazy(() => import('../components/HolographicCard').then(m => ({ default: m.HolographicCard })));
@@ -127,7 +129,7 @@ export const LandingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-emerald-900 text-white overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-emerald-900 text-white overflow-hidden aurora-bg scanlines noise-overlay">
       {/* Progressive particle background - loads after interaction */}
       <ProgressiveParticleBackground 
         enabled={isEnhanced} 
@@ -178,16 +180,34 @@ export const LandingPage = () => {
         >
           <div className="mb-8">
             <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                NEURON
-              </span>
+              <GlitchText
+                text="NEURON"
+                className="rgb-shimmer text-glow-emerald"
+                typingSpeed={80}
+                enableGlitch={true}
+              />
               <br />
               <span className="text-white">Tasks</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+
+            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-6">
               The future of productivity is here. Experience AI-powered task management 
               with a cyberpunk twist that adapts to your neural patterns.
             </p>
+
+            {/* Terminal boot sequence */}
+            {isEnhanced && (
+              <div className="max-w-md mx-auto text-left mb-2">
+                <TerminalText
+                  lines={[
+                    { text: 'Neural interface initializing...', color: '#10b981' },
+                    { text: 'AI core online — ready', color: '#06b6d4' },
+                    { text: 'Welcome to the future', color: '#818cf8' },
+                  ]}
+                  lineDelay={500}
+                />
+              </div>
+            )}
           </div>
 
           <ProgressiveFadeIn
@@ -361,7 +381,12 @@ export const LandingPage = () => {
               </span>
             </div>
             <p className="text-gray-400">
-              © 2024 NEURON Tasks. Enhancing human productivity through AI.
+              © 2026 NEURON Tasks. Built by{' '}
+              <a href="https://themusab.tech" target="_blank" rel="noopener noreferrer"
+                className="text-emerald-400 hover:text-emerald-300 transition-colors font-semibold hover:underline">
+                Musab Hassen
+              </a>
+              {' '}· Enhancing human productivity through AI.
             </p>
           </div>
           
@@ -408,11 +433,13 @@ export const LandingPage = () => {
                   <span>Telegram</span>
                 </a>
                 <a
-                  href="#"
-                  className="text-gray-400 hover:text-emerald-400 transition-colors duration-300 flex items-center space-x-2"
+                  href="https://themusab.tech"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-emerald-400 transition-colors duration-300 flex items-center space-x-2 group"
                 >
-                  <ExternalLink className="w-4 h-4" />
-                  <span>Portfolio</span>
+                  <Globe className="w-4 h-4 group-hover:text-emerald-400" />
+                  <span className="group-hover:text-glow-emerald">themusab.tech</span>
                 </a>
               </div>
             </div>
